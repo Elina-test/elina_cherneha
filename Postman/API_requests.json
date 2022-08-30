@@ -1,0 +1,3900 @@
+{
+	"info": {
+		"_postman_id": "9ddfb1bc-4db0-44c1-894b-cf377a98b528",
+		"name": "Hero Outbound API_DEV",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "calls",
+			"item": [
+				{
+					"name": "Calls",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Calls were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"Callid\", jsonData[0].uniqueLeadId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"phoneNumber\", jsonData[0].leadPhoneNumber);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calls?OrgCode={{orgCode}}&StartTime={{starttime}}&TimeSpan=P30DT1H5M&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "StartTime",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "TimeSpan",
+									"value": "P30DT1H5M"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Call recordings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Recorging is gotten\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"pm.test(\"Recorging is gotten\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calls/{UniqueId}/recordings?UniqueId={{Callid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls",
+								"{UniqueId}",
+								"recordings"
+							],
+							"query": [
+								{
+									"key": "UniqueId",
+									"value": "{{Callid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agent ready period",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Agent ready period was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calls?OrgCode={{orgCode}}&StartTime={{starttime}}&TimeSpan=P30DT1H5M&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "StartTime",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "TimeSpan",
+									"value": "P30DT1H5M"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Calls as a csv stream",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Calls as a csv stream were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calls/csv?OrgCode={{orgCode}}&StartTime={{starttime}}&TimeSpan=P30DT1H5M&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls",
+								"csv"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "StartTime",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "TimeSpan",
+									"value": "P30DT1H5M"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Org units calls in a given time period",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Org units calls were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits/{OrgCode}/calls?OrgCode={{orgCode}}&StartTime={{starttime}}&TimeSpan=P30DT1H5M&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits",
+								"{OrgCode}",
+								"calls"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "StartTime",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "TimeSpan",
+									"value": "P30DT1H5M"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users calls in a given time period",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Users calls were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{OrgCode}/calls?OrgCode={{orgCode}}&StartTime={{starttime}}&TimeSpan=P30DT1H5M&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{OrgCode}",
+								"calls"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "StartTime",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "TimeSpan",
+									"value": "P30DT1H5M"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							" var moment = require('moment')",
+							"",
+							"    pm.environment.set(\"current_timestamp\", moment().toISOString())",
+							"    pm.environment.set(\"starttime\", moment().subtract(30, 'day').toISOString())"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "activities",
+			"item": [
+				{
+					"name": "All completed activities. Bonus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Completed activities with bonus were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(360, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities/bonuses?FromTime={{starttime}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities",
+								"bonuses"
+							],
+							"query": [
+								{
+									"key": "FromTime",
+									"value": "{{starttime}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All completed activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Completed activities were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"isActive value is true\", function () {\r",
+									"var arr = pm.response.json(); \r",
+									"console.log(arr.length) \r",
+									"for (var i = 0; i < arr.length; i++)\r",
+									"{ \r",
+									"    if(arr[i].isActive === true){\r",
+									"        pm.test(\"isActive should be true\", function () {\r",
+									"            pm.expect(arr[i].isActive).to.be.true;\r",
+									"        });\r",
+									"    }\r",
+									"}\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(30, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities/completed",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities",
+								"completed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All activity types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"All activity types were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"TypeUniqueId\", jsonData[0].uniqueId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities/types",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Completed activities of the given type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Completed activities on given type were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(150, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities/{TypeUniqueId}/completed?TypeUniqueId={{TypeUniqueId}}&FromTime={{starttime}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities",
+								"{TypeUniqueId}",
+								"completed"
+							],
+							"query": [
+								{
+									"key": "TypeUniqueId",
+									"value": "{{TypeUniqueId}}"
+								},
+								{
+									"key": "FromTime",
+									"value": "{{starttime}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							" var moment = require('moment')",
+							"",
+							"    pm.environment.set(\"current_timestamp\", moment().toISOString())",
+							"    pm.environment.set(\"starttime\", moment().subtract(30, 'day').toISOString())"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "campaigns",
+			"item": [
+				{
+					"name": "Campaigns",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campaigns were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\");\r",
+									"  pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"  pm.expect(pm.response.text()).to.include(\"project\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"CampaignCode\", jsonData[0].uniqueId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"campaignName\", jsonData[0].name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false,
+						"disableUrlEncoding": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/campaigns",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lead pools in a given campaign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Lead pools in a given campaign were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"type\");\r",
+									"  pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"  pm.expect(pm.response.text()).to.include(\"creationTime\");\r",
+									"  pm.expect(pm.response.text()).to.include(\"active\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"LeadPoolName\", jsonData[0].name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/leadpools?CampaignCode={{CampaignCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"leadpools"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A new lead pool for a given campaign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Lead pool was created successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var current_timestamp = new Date();\r",
+									"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toISOString());\r",
+									"\r",
+									"\r",
+									"function makeRandomName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"function makeRandomPriority() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 1; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"pm.environment.set (\"$randomName\", \"testlead_\" + makeRandomName());\r",
+									"pm.environment.set (\"$randomPriority\", makeRandomPriority());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": {{$randomName}},\r\n    \"defaultPriority\": {{$randomPriority}},\r\n    \"campaignCode\": {{CampaignCode}},\r\n    \"campaignName\": {{campaignName}},\r\n    \"activeFrom\": {{current_timestamp}} \r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/leadpools?CampaignCode={{CampaignCode}}&CampaignName={{campaignName}}&activeFrom={{current_timestamp}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"leadpools"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								},
+								{
+									"key": "CampaignName",
+									"value": "{{campaignName}}"
+								},
+								{
+									"key": "activeFrom",
+									"value": "{{current_timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating lead pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Lead pool was updated successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"leadPoolName\": {{LeadPoolName}},\r\n\"campaignCode\": {{CampaignCode}},\r\n\"campaignName\": {{campaignName}},\r\n\"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/leadpools?CampaignCode={{CampaignCode}}&LeadPoolName={{LeadPoolName}}&CampaignName={{campaignName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"leadpools"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								},
+								{
+									"key": "LeadPoolName",
+									"value": "{{LeadPoolName}}"
+								},
+								{
+									"key": "CampaignName",
+									"value": "{{campaignName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clone campaign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campaign was cloned successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"success\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function makeRandomName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"function makeRandomCode() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set (\"$randomName\", \"CloneCampaign\" + makeRandomName());\r",
+									"pm.environment.set (\"$randomCode\", \"CAMP\" + makeRandomName());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"campaignName\": {{campaignName}},\r\n\"campaignCode\": {{CampaignCode}},\r\n\"newName\": {{$randomName}},\r\n\"newCode\": {{$randomCode}},\r\n\"includeEntryGroupData\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/clone",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"clone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All projects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"All projects were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"active\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"ProjectName\", jsonData[0].name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Campaigns with active users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Campaigns were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"code\", \"project\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{OrgCode}/campaigns?OrgCode={{orgCode}}&Active=OnlyActive",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{OrgCode}",
+								"campaigns"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								},
+								{
+									"key": "Active",
+									"value": "OnlyActive"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A list of projects for a specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Projects were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{OrgCode}/projects?OrgCode={{orgCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{OrgCode}",
+								"projects"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var current_timestamp = new Date();",
+							"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toISOString());"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "calendars",
+			"item": [
+				{
+					"name": "All calendars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Calendars were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"project\", \"displayName\", \"calendarCode\", \"active\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"calendarCode\", jsonData[0].calendarCode);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calendars",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating existing calendar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Calendar was updated successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function makeRandomName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set (\"$randomName\", \"MyCalendar\" + makeRandomName());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"calendarCode\": {{calendarCode}},\r\n\"displayName\": {{$randomName}},\r\n\"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calendars/{CalendarCode}?calendarCode={{calendarCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"{CalendarCode}"
+							],
+							"query": [
+								{
+									"key": "calendarCode",
+									"value": "{{calendarCode}}"
+								},
+								{
+									"key": "displayName ",
+									"value": "CalendarAPI",
+									"disabled": true
+								},
+								{
+									"key": "active",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "calendarevents",
+			"item": [
+				{
+					"name": "Events from the calendar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Events were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"calendarCode\", \"start\", \"end\", \"uniqueId\", \"leadUniqueId\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(150, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calendars/{CalendarCode}/events?CalendarCode={{calendarCode}}&FromDate={{starttime}}&ToDate={{current_timestamp}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"{CalendarCode}",
+								"events"
+							],
+							"query": [
+								{
+									"key": "CalendarCode",
+									"value": "{{calendarCode}}"
+								},
+								{
+									"key": "FromDate",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "ToDate",
+									"value": "{{current_timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Events from all calendars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Events were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"calendarCode\", \"start\", \"end\", \"uniqueId\", \"leadUniqueId\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(150, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events?FromDate={{starttime}}&ToDate={{current_timestamp}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events"
+							],
+							"query": [
+								{
+									"key": "FromDate",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "ToDate",
+									"value": "{{current_timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creating a calendar event",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"\r",
+									"var time = new Date();\r",
+									"time.setHours(time.getHours()+2);\r",
+									"var endtime = time.toISOString();\r",
+									"console.log('After two hours time will be:' + endtime);\r",
+									"pm.environment.set(\"endtime\", endtime)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"uniqueId\", jsonData.uniqueId);\r",
+									"\r",
+									"pm.test(\"Event was created successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"calendarCode\", \"start\", \"end\", \"uniqueId\", \"title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check response\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.title).to.eql(\"Sales event\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"eventTitle\", jsonData.title);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"calendarCode\": {{calendarCode}},\r\n    \"title\": \"Sales event\",\r\n    \"notes\": \"Presentarion of the new product\",\r\n    \"start\": {{current_timestamp}},\r\n    \"end\": {{endtime}},\r\n    \"source\": {{ProjectName}},\r\n    \"externalId\": \"Sales01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checking that new event is present in the calendar",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"start\", moment().subtract(10, 'day').toISOString())\r",
+									"    pm.environment.set(\"end\", moment().add(2, 'day').toISOString())\r",
+									"\r",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Events were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"Sales event\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events?FromDate={{start}}&ToDate={{end}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events"
+							],
+							"query": [
+								{
+									"key": "FromDate",
+									"value": "{{start}}"
+								},
+								{
+									"key": "ToDate",
+									"value": "{{end}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating calendar event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Event was updated successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"\r",
+									"var time = new Date();\r",
+									"time.setHours(time.getHours()+3);\r",
+									"var endtime = time.toISOString();\r",
+									"console.log('After three hours time will be:' + endtime);\r",
+									"pm.environment.set(\"endtime\", endtime)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uniqueId",
+									"value": "{{uniqueId}}",
+									"type": "text"
+								},
+								{
+									"key": "calendarCode",
+									"value": "{{calendarCode}}",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "{{eventTitle}}",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "{{current_timestamp}}",
+									"type": "text"
+								},
+								{
+									"key": "end",
+									"value": "{{endtime}}",
+									"type": "text"
+								},
+								{
+									"key": "source",
+									"value": "{{ProjectName}}",
+									"type": "text"
+								},
+								{
+									"key": "externalId",
+									"value": "Sales02",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events/{UniqueId}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events",
+								"{UniqueId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checking updated event",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"start\", moment().subtract(10, 'day').toISOString())\r",
+									"    pm.environment.set(\"end\", moment().add(2, 'day').toISOString())\r",
+									"\r",
+									"  "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Events were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"Sales02\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events?FromDate={{start}}&ToDate={{end}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events"
+							],
+							"query": [
+								{
+									"key": "FromDate",
+									"value": "{{start}}"
+								},
+								{
+									"key": "ToDate",
+									"value": "{{end}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Removing calendar event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Event was deleted successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calendars/events/{UniqueId}?UniqueId={{uniqueId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calendars",
+								"events",
+								"{UniqueId}"
+							],
+							"query": [
+								{
+									"key": "UniqueId",
+									"value": "{{uniqueId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							" var moment = require('moment')",
+							"",
+							"    pm.environment.set(\"current_timestamp\", moment().toISOString())",
+							"    pm.environment.set(\"starttime\", moment().subtract(10, 'day').toISOString())"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "donotcallnumbers",
+			"item": [
+				{
+					"name": "DoNotCall numbers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Numbers were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/donotcallnumbers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"donotcallnumbers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add DoNotCall numbers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().add(1, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Numbers were added to the list successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"success\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": {{phoneNumber}},\r\n    \"reason\": \"low priority\",\r\n    \"expirationDate\": {{starttime}},\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/donotcallnumbers?phoneNumber={{phoneNumber}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"donotcallnumbers"
+							],
+							"query": [
+								{
+									"key": "phoneNumber",
+									"value": "{{phoneNumber}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a DoNotCall number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Number was deleted successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": {{phoneNumber}},\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/donotcallnumbers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"donotcallnumbers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "leaddefinitinon",
+			"item": [
+				{
+					"name": "The lead definition for a given campaign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The lead definition was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"createdTime\", \"lastModifiedTime\", \"isDeleted\", \"leadDefinitionEntries\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/leaddefinition?CampaignCode={{CampaignCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"leaddefinition"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lead definitions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Lead definitions were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"createdTime\", \"lastModifiedTime\", \"isDeleted\", \"leadDefinitionEntries\");\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leaddefinitions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leaddefinitions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "leads",
+			"item": [
+				{
+					"name": "Removing open leads from a lead pool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Open leads were removed\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/leadpools/{LeadPoolName}/leads?CampaignCode={{CampaignCode}}&LeadPoolName={{LeadPoolName}}&AllowRemoveFromActiveLeadPool=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"leadpools",
+								"{LeadPoolName}",
+								"leads"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								},
+								{
+									"key": "LeadPoolName",
+									"value": "{{LeadPoolName}}"
+								},
+								{
+									"key": "AllowRemoveFromActiveLeadPool",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Importing a new lead",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The new lead was imported successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\")\r",
+									"  });\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"LeadId\", jsonData.uniqueId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"campaignCode\": {{CampaignCode}},\r\n    \"campaignName\": {{campaignName}},\r\n    \"orgCode\": {{orgCode}},\r\n    \"status\": \"new\",\r\n    \"priority\": 5,\r\n    \"data\":\r\n{\"phone\": {{phoneNumber}}\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leads?orgCode={{orgCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads"
+							],
+							"query": [
+								{
+									"key": "orgCode",
+									"value": "{{orgCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating the lead",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The new lead was imported successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uniqueId\": {{LeadId}},\r\n    \"status\": \"RedialManualCommon\",\r\n    \"priority\": 2,\r\n    \"data\" {\"phone\": \"+4572453563\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leads/{UniqueId}?uniqueId={{LeadId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads",
+								"{UniqueId}"
+							],
+							"query": [
+								{
+									"key": "uniqueId",
+									"value": "{{LeadId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clone a lead",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The new lead was imported successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function makeRandomLeadName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set (\"$randomLeadName\", \"CloneLead\" + makeRandomLeadName());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"MasterLeadUniqueId\": {{LeadId}},\r\n    \"campaignCode\": {{CampaignCode}},\r\n    \"campaignName\": {{campaignName}},\r\n    \"leadPoolName\": {{$randomLeadName}},\r\n    \"orgCode\": {{orgCode}},\r\n    \"status\": \"new\",\r\n    \"priority\": 5,\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leads/clone/{MasterLeadUniqueId}?MasterLeadUniqueId={{LeadId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads",
+								"clone",
+								"{MasterLeadUniqueId}"
+							],
+							"query": [
+								{
+									"key": "MasterLeadUniqueId",
+									"value": "{{LeadId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "An example of an exported lead",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The new lead was imported successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"campaign\", \"leadPool\", \"data\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leads/export_example?CampaignCode={{CampaignCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads",
+								"export_example"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "An example lead import request body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The new lead was imported successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"campaignCode\", \"customData\", \"data\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leads/import_example_request_body?CampaignCode={{CampaignCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads",
+								"import_example_request_body"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Available saved searches",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Searchers were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"SearchName\", jsonData[0].name);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leads/searches",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads",
+								"searches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Leads as defined in a saved search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"pm.test(\"Leads were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leads?SearchName={{SearchName}}&format=json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads"
+							],
+							"query": [
+								{
+									"key": "SearchName",
+									"value": "{{SearchName}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "leadsegments",
+			"item": [
+				{
+					"name": "All lead segments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"All lead segments were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"name\", \"uniqueId\", \"isActive\", \"activeFrom\", \"activeTill\")\r",
+									"  });\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"SegmentId\", jsonData[0].uniqueId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leadsegments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leadsegments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add leads to the lead segment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Leads were added successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uniqueId\": {{SegmentId}},\r\n    \"leadUniqueIds\": [{{LeadId}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leadsegments/{UniqueId}/leads?UniqueId={{SegmentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leadsegments",
+								"{UniqueId}",
+								"leads"
+							],
+							"query": [
+								{
+									"key": "UniqueId",
+									"value": "{{SegmentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Removing leads from the lead segment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Leads were deleted successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uniqueId\": {{SegmentId}},\r\n    \"leadUniqueIds\": [\"{{LeadId}}\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leadsegments/{UniqueId}/leads?UniqueId={{SegmentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leadsegments",
+								"{UniqueId}",
+								"leads"
+							],
+							"query": [
+								{
+									"key": "UniqueId",
+									"value": "{{SegmentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "organizationalunits",
+			"item": [
+				{
+					"name": "Organizational units",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Organizational units were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"orgCode\", \"level\", \"parent\", \"children\", \"users\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"OrgUnitCode\", jsonData[0].orgCode);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits?Active=OnlyActive",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits"
+							],
+							"query": [
+								{
+									"key": "Active",
+									"value": "OnlyActive"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Users were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"username\", \"name\", \"orgCode\", \"email\", \"parent\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A specific organizational unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"A specific unit was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"orgCode\", \"level\", \"parent\", \"children\", \"users\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits/{OrgCode}?OrgCode={{OrgUnitCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits",
+								"{OrgCode}"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{OrgUnitCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "The children of a specific organizational unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"A specific unit was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"orgCode\", \"level\", \"parent\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits/{OrgCode}/children?orgCode={{OrgUnitCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits",
+								"{OrgCode}",
+								"children"
+							],
+							"query": [
+								{
+									"key": "orgCode",
+									"value": "{{OrgUnitCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "The users of a specific organizational unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The users were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"orgCode\", \"campaigns\", \"email\", \"projects\", \"roles\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits/{OrgCode}/users?orgCode={{OrgUnitCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits",
+								"{OrgCode}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "orgCode",
+									"value": "{{OrgUnitCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "The top level units",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The top level units were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"name\", \"orgCode\", \"parent\", \"children\", \"level\", \"users\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/organizationalunits/root",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"organizationalunits",
+								"root"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creating a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user was created successfully\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"function makeRandomUserName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"function makeRandomName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"function makeRandomPriority() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 1; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.environment.set (\"$randomUserName\", \"user+\" + makeRandomName() + \"@herobase.com\");\r",
+									"pm.environment.set (\"$randomName\", \"testuser_\" + makeRandomPriority());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": {{$randomUserName}},\r\n    \"name\": {{$randomName}},\r\n    \"orgCode\": {{$randomName}},\r\n    \"parentOrgCode\": {{OrgUnitCode}},\r\n    \"email\": {{$randomUserName}},\r\n    \"countryCallingCode\": 45,\r\n    \"isActive\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?parentOrgCode={{OrgUnitCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "parentOrgCode",
+									"value": "{{OrgUnitCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "A specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"A specific user was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{OrgCode}?OrgCode={{orgCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{OrgCode}"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating the user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user was updated\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orgCode\": {{orgCode}},\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{OrgCode}?OrgCode={{orgCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{OrgCode}"
+							],
+							"query": [
+								{
+									"key": "OrgCode",
+									"value": "{{orgCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "entrygroupdata",
+			"item": [
+				{
+					"name": "Entry group data configurations for a given campaign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Entry group data was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"campaignUniqueId\", \"uniqueId\", \"matchStrategy\", \"name\", \"entryGroupsMatchPattern\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/campaigns/{CampaignCode}/entryGroupData/configurations?CampaignCode={{CampaignCode}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"campaigns",
+								"{CampaignCode}",
+								"entryGroupData",
+								"configurations"
+							],
+							"query": [
+								{
+									"key": "CampaignCode",
+									"value": "{{CampaignCode}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Entry group data configurations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Entry group data was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"campaignUniqueId\", \"uniqueId\", \"matchStrategy\", \"name\", \"entryGroupsMatchPattern\")\r",
+									"  });\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"entryGroupDataConfigUniqueId\", jsonData[0].uniqueId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/entryGroupData/configurations",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryGroupData",
+								"configurations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Entry group data sets for a configuration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Entry group data was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"entryGroupDataConfigUniqueId\", \"description\", \"isActive\", \"dataFormatVersion\", \"headers\", \"dataByKeyInGroup\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/entryGroupData/configurations/{EntryGroupDataConfigUniqueId}/datasets?EntryGroupDataConfigUniqueId={{entryGroupDataConfigUniqueId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryGroupData",
+								"configurations",
+								"{EntryGroupDataConfigUniqueId}",
+								"datasets"
+							],
+							"query": [
+								{
+									"key": "EntryGroupDataConfigUniqueId",
+									"value": "{{entryGroupDataConfigUniqueId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates an entry group data set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Entry group data was created\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"success\", \"message\")\r",
+									"  });\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"entryGroupDataSetUniqueId\", jsonData.uniqueId);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function makeRandomName() {\r",
+									"   \r",
+									"    var ln = \"\";\r",
+									"    var possible = \"123456789\";\r",
+									"\r",
+									"    for (var i = 0; i < 3; i++)\r",
+									"     ln += possible.charAt(Math.floor(Math.random() * possible.length))\r",
+									"     return ln;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set (\"$randomName\", \"TestEntryGroup\" + makeRandomName());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"entryGroupDataConfigUniqueId\": {{entryGroupDataConfigUniqueId}},\r\n        \"description\": {{$randomName}},\r\n        \"validFrom\": {{$timestamp}},\r\n        \"isActive\": true,\r\n        \"dataFormatVersion\": 1,\r\n        \"headers\": [\r\n            \"Product\",\r\n            \"OrderCode\",\r\n            \"Monthly bill\",\r\n            \"TurnOver\",\r\n            \"Campaign Code\"\r\n        ],\r\n        \"dataByKeyInGroup\": [\r\n            {\r\n                \"Product\": \"2 months, Xiaomi 2.0\",\r\n                \"OrderCode\": \"12345\",\r\n                \"Monthly bill\": \"20\",\r\n                \"TurnOver\": \"10\",\r\n                \"Campaign Code\": \"JUN2021\"\r\n            },\r\n        ]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/entryGroupData/datasets/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryGroupData",
+								"datasets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "An entry group data set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"An entry group data set was found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"uniqueId\", \"entryGroupDataConfigUniqueId\", \"description\", \"isActive\", \"dataFormatVersion\", \"headers\", \"dataByKeyInGroup\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/entryGroupData/datasets/{EntryGroupDataSetUniqueId}?entryGroupDataSetUniqueId={{entryGroupDataSetUniqueId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryGroupData",
+								"datasets",
+								"{EntryGroupDataSetUniqueId}"
+							],
+							"query": [
+								{
+									"key": "entryGroupDataSetUniqueId",
+									"value": "{{entryGroupDataSetUniqueId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes an entry group data set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"An entry group data set was deleted\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains string\",() => {\r",
+									"  pm.expect(pm.response.text()).to.include(\"success\", \"message\")\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/entryGroupData/datasets/{EntryGroupDataSetUniqueId}?EntryGroupDataSetUniqueId={{entryGroupDataSetUniqueId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryGroupData",
+								"datasets",
+								"{EntryGroupDataSetUniqueId}"
+							],
+							"query": [
+								{
+									"key": "EntryGroupDataSetUniqueId",
+									"value": "{{entryGroupDataSetUniqueId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "My account",
+			"item": [
+				{
+					"name": "My account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Detalis about account were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/myaccount",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"myaccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details on current number of requests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"All lead segments were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/myaccount/request/counts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"myaccount",
+								"request",
+								"counts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "rawleads",
+			"item": [
+				{
+					"name": "raw leads",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Raw leads were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rawleads/csv?Projects=*&ModifiedFrom={{starttime}}&format=json&AllOpenStatuses=true&AllClosedStatuses=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rawleads",
+								"csv"
+							],
+							"query": [
+								{
+									"key": "Projects",
+									"value": "*"
+								},
+								{
+									"key": "ModifiedFrom",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "AllOpenStatuses",
+									"value": "true"
+								},
+								{
+									"key": "AllClosedStatuses",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "simpleleads",
+			"item": [
+				{
+					"name": "simple leads",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" var moment = require('moment')\r",
+									"\r",
+									"    pm.environment.set(\"current_timestamp\", moment().toISOString())\r",
+									"    pm.environment.set(\"starttime\", moment().subtract(60, 'day').toISOString())"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Raw leads were found\", function () {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/simpleleads/?Projects=*&ModifiedFrom={{starttime}}&format=json&AllOpenStatuses=true&AllClosedStatuses=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"simpleleads",
+								""
+							],
+							"query": [
+								{
+									"key": "Projects",
+									"value": "*"
+								},
+								{
+									"key": "ModifiedFrom",
+									"value": "{{starttime}}"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								},
+								{
+									"key": "AllOpenStatuses",
+									"value": "true"
+								},
+								{
+									"key": "AllClosedStatuses",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{Password}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{Username}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "elina.cherneha+1@herobase.com",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "Sense13011988",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://wsherobase.dev.herobase.com/api"
+		},
+		{
+			"key": "Username",
+			"value": "elina.cherneha+1@herobase.com"
+		},
+		{
+			"key": "Password",
+			"value": "Sense13011988"
+		},
+		{
+			"key": "orgCode",
+			"value": "elina.cherneha%2B1%40herobase.com"
+		},
+		{
+			"key": "uniqueId",
+			"value": ""
+		},
+		{
+			"key": "calendarCode",
+			"value": ""
+		},
+		{
+			"key": "TypeUniqueId",
+			"value": ""
+		},
+		{
+			"key": "phoneNumber",
+			"value": ""
+		},
+		{
+			"key": "CampaignCode",
+			"value": ""
+		},
+		{
+			"key": "campaignName",
+			"value": ""
+		},
+		{
+			"key": "LeadPoolName",
+			"value": ""
+		},
+		{
+			"key": "LeadId",
+			"value": ""
+		},
+		{
+			"key": "SegmentId",
+			"value": ""
+		},
+		{
+			"key": "currentDate",
+			"value": ""
+		},
+		{
+			"key": "ProjectName",
+			"value": ""
+		},
+		{
+			"key": "TimeSpan",
+			"value": ""
+		},
+		{
+			"key": "entryGroupDataConfigUniqueId",
+			"value": ""
+		},
+		{
+			"key": "entryGroupDataSetUniqueId",
+			"value": ""
+		},
+		{
+			"key": "eventTitle",
+			"value": ""
+		},
+		{
+			"key": "Callid",
+			"value": ""
+		},
+		{
+			"key": "SearchName",
+			"value": ""
+		},
+		{
+			"key": "LeadUniqueId",
+			"value": ""
+		},
+		{
+			"key": "OrgUnitCode",
+			"value": ""
+		},
+		{
+			"key": "ParentOrgCode",
+			"value": ""
+		}
+	]
+}
